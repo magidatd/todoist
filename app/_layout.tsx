@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { Stack, Slot, useRouter, usePathname, useSegments } from 'expo-router';
+import { Stack, useRouter, usePathname, useSegments, useRootNavigationState } from 'expo-router';
 import { ClerkProvider, ClerkLoaded, useAuth } from '@clerk/clerk-expo';
 import { tokenCache } from '@/utils/cache';
 import { Colors } from '@/constants/Colors';
@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import React from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,7 +28,11 @@ const InitialLayout = () => {
 	const pathname = usePathname();
 	const segments = useSegments();
 
+	const navigationState = useRootNavigationState();
+
 	useEffect(() => {
+		if (!navigationState?.key) return;
+
 		if (!isLoaded) return;
 
 		if (loaded) {
@@ -41,7 +46,7 @@ const InitialLayout = () => {
 		} else if (!isSignedIn && pathname !== '/') {
 			router.replace('/');
 		}
-	}, [loaded, isLoaded, isSignedIn]);
+	}, [loaded, isLoaded, isSignedIn, navigationState]);
 
 	if (!loaded) {
 		return null;
@@ -68,7 +73,10 @@ const InitialLayout = () => {
 				name='index'
 				options={{ headerShown: false, animation: 'slide_from_right' }}
 			/>
-			<Stack.Screen name='+not-found' />
+			<Stack.Screen
+				name='(authenticated)'
+				options={{ headerShown: false, animation: 'slide_from_right' }}
+			/>
 		</Stack>
 	);
 };
