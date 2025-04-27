@@ -32,6 +32,22 @@
 					"resizeMode": "contain",
 					"backgroundColor": "#ffffff"
 				}
+			],
+			[
+				"expo-dev-launcher",
+				{
+					"launchMode": "most-recent"
+				}
+			],
+			"expo-secure-store",
+			[
+				"expo-font",
+				{
+					"font": [
+						"./node_modules/@react-native-vector-icons/lucide/fonts/Lucide.ttf",
+						"./node_modules/@react-native-vector-icons/material-design-icons/fonts/MaterialDesignIcons.ttf"
+					]
+				}
 			]
 		],
 		"experiments": {
